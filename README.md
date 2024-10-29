@@ -1,7 +1,7 @@
 # Stack used
 
   <a href="https://go-skill-icons.vercel.app/">
-    <img src="https://go-skill-icons.vercel.app/api/icons?i=typescript,react,supabase,yarn,vite" alt="typescript,react,supabase,yarn,vite" />
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=typescript,react,supabase,postgresql,yarn,vite" alt="typescript,react,supabase,postgresql,yarn,vite" />
   </a>
 
 ### Other tools:
