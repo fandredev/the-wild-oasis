@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import ICabin from '../../interfaces/Cabin';
+import { formatCurrency } from '../../utils/helpers';
 
 const TableRow = styled.div`
   display: grid;
@@ -25,16 +27,32 @@ const Cabin = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--color-grey-600);
-  font-family: "Sono";
+  font-family: 'Sono';
 `;
 
 const Price = styled.div`
-  font-family: "Sono";
+  font-family: 'Sono';
   font-weight: 600;
 `;
 
 const Discount = styled.div`
-  font-family: "Sono";
+  font-family: 'Sono';
   font-weight: 500;
   color: var(--color-green-700);
 `;
+
+interface CabinRowProps {
+  cabin: ICabin;
+}
+
+export default function CabinRow({ cabin }: CabinRowProps) {
+  return (
+    <TableRow role="row">
+      <Img src={cabin.image}></Img>
+      <Cabin>{cabin.name}</Cabin>
+      <div>Fits up tp {cabin.maxCapacity} guests</div>
+      <Price>{formatCurrency(cabin.regularPrice)}</Price>
+      <Discount>{formatCurrency(cabin.discount)}</Discount>
+    </TableRow>
+  );
+}
