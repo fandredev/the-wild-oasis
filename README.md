@@ -13,6 +13,7 @@
 - [React Router DOM](https://reactrouter.com/en/main)
 - [React Query](https://www.npmjs.com/package/react-query)
 - [React Icons](https://react-icons.github.io/react-icons/)
+- [React Hot Toast](https://react-hot-toast.com/)
 - [Date Fns](https://www.npmjs.com/package/date-fns)
 
 ### Details

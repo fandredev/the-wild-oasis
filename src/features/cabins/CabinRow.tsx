@@ -3,6 +3,7 @@ import ICabin from '../../interfaces/Cabin';
 import { formatCurrency } from '../../utils/helpers';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteCabin } from '../../services/apiCabins';
+import toast from 'react-hot-toast';
 
 const TableRow = styled.div`
   display: grid;
@@ -53,7 +54,7 @@ export default function CabinRow({ cabin }: CabinRowProps) {
   const { isPending: isDeleting, mutate } = useMutation({
     mutationFn: (id: number) => deleteCabin(id),
     onSuccess: () => {
-      alert('Cabin successfully deleted!');
+      toast.success('Cabin successfully deleted!');
       /**
        * Quando a requisição der sucesso, pegue o cachê atual e invalidate ele (pois ele agora é obsoleto, já que fiz um delete)
        * Quando isso for chamado, ele revalidará o cachê com os dados novos e invalidando o cachê antigo (com o dado obsoleto)
@@ -62,14 +63,14 @@ export default function CabinRow({ cabin }: CabinRowProps) {
         queryKey: ['cabins'],
       });
     },
-    onError: (err) => alert(err.message),
+    onError: (err) => toast.error(err.message),
   });
 
   return (
     <TableRow role="row">
       <Img src={cabin.image}></Img>
       <Cabin>{cabin.name}</Cabin>
-      <div>Fits up tp {cabin.maxCapacity} guests</div>
+      <div>Fits up to {cabin.maxCapacity} guests</div>
       <Price>{formatCurrency(cabin.regularPrice)}</Price>
       <Discount>{formatCurrency(cabin.discount)}</Discount>
 
