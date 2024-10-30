@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import ICabin from '../../interfaces/Cabin';
 import { formatCurrency } from '../../utils/helpers';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteCabin } from '../../services/apiCabins';
 
 const TableRow = styled.div`
   display: grid;
@@ -46,6 +48,23 @@ interface CabinRowProps {
 }
 
 export default function CabinRow({ cabin }: CabinRowProps) {
+  const queryClient = useQueryClient();
+
+  const { isPending: isDeleting, mutate } = useMutation({
+    mutationFn: (id: number) => deleteCabin(id),
+    onSuccess: () => {
+      alert('Cabin successfully deleted!');
+      /**
+       * Quando a requisição der sucesso, pegue o cachê atual e invalidate ele (pois ele agora é obsoleto, já que fiz um delete)
+       * Quando isso for chamado, ele revalidará o cachê com os dados novos e invalidando o cachê antigo (com o dado obsoleto)
+       */
+      queryClient.invalidateQueries({
+        queryKey: ['cabins'],
+      });
+    },
+    onError: (err) => alert(err.message),
+  });
+
   return (
     <TableRow role="row">
       <Img src={cabin.image}></Img>
@@ -53,6 +72,10 @@ export default function CabinRow({ cabin }: CabinRowProps) {
       <div>Fits up tp {cabin.maxCapacity} guests</div>
       <Price>{formatCurrency(cabin.regularPrice)}</Price>
       <Discount>{formatCurrency(cabin.discount)}</Discount>
+
+      <button onClick={() => mutate(cabin.id)} disabled={isDeleting}>
+        Delete
+      </button>
     </TableRow>
   );
 }
