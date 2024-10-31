@@ -9,13 +9,24 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createCabin } from '../../services/apiCabins';
 import toast from 'react-hot-toast';
 import FormRow, { Label } from '../../ui/FormRow';
+import { CreateCabinForm } from './CreateCabinForm';
 
-export type CreateCabinForm = Omit<ICabin, 'id' | 'created_at'>;
+export type EditCabinForm = Omit<ICabin, 'created_at'>;
 
-export default function CreateCabinForm() {
+interface CabinEditProps {
+  cabinToEdit?: EditCabinForm;
+}
+
+export default function UpdateCabinForm({
+  cabinToEdit = {} as EditCabinForm,
+}: CabinEditProps) {
+  const { id: editId, ...editValues } = cabinToEdit;
+  const isEditSession = Boolean(editId);
+
   const queryClient = useQueryClient();
-  const { register, handleSubmit, reset, getValues, formState } =
-    useForm<CreateCabinForm>();
+  const { register, handleSubmit, reset, getValues, formState } = useForm({
+    defaultValues: isEditSession ? editValues : ({} as EditCabinForm),
+  });
 
   const { errors } = formState;
 
@@ -32,10 +43,10 @@ export default function CreateCabinForm() {
     onError: (err) => toast.error(err.message),
   });
 
-  function submitNewCabin(newCabin: CreateCabinForm) {
+  function submitEditCabin(editCabin: CreateCabinForm) {
     mutate({
-      ...newCabin,
-      image: newCabin.image,
+      ...editCabin,
+      image: editCabin.image,
     });
   }
 
@@ -45,7 +56,7 @@ export default function CreateCabinForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit(submitNewCabin, onInvalidForm)}>
+    <Form onSubmit={handleSubmit(submitEditCabin, onInvalidForm)}>
       <FormRow label="Cabin name" errorMessage={errors?.name?.message}>
         <Label htmlFor="name">Cabin name</Label>
         <Input
@@ -125,20 +136,14 @@ export default function CreateCabinForm() {
 
       <FormRow label="Cabin photo" errorMessage={errors?.image?.message}>
         <Label htmlFor="image">Cabin photo</Label>
-        <FileInput
-          id="image"
-          accept="image/*"
-          {...register('image', {
-            required: 'this field is required',
-          })}
-        />
+        <FileInput id="image" accept="image/*" {...register('image')} />
       </FormRow>
 
       <FormRow label="Cabin photo" errorMessage={errors?.image?.message}>
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled={isCreating}>Add cabin</Button>
+        <Button disabled={isCreating}>Edit cabin</Button>
       </FormRow>
     </Form>
   );

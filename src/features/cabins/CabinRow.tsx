@@ -50,6 +50,7 @@ interface CabinRowProps {
 
 export default function CabinRow({ cabin }: CabinRowProps) {
   const queryClient = useQueryClient();
+  const cabinImage = cabin.image as unknown as string;
 
   const { isPending: isDeleting, mutate } = useMutation({
     mutationFn: (id: number) => deleteCabin(id),
@@ -67,16 +68,19 @@ export default function CabinRow({ cabin }: CabinRowProps) {
   });
 
   return (
-    <TableRow role="row">
-      <Img src={cabin.image}></Img>
-      <Cabin>{cabin.name}</Cabin>
-      <div>Fits up to {cabin.maxCapacity} guests</div>
-      <Price>{formatCurrency(cabin.regularPrice)}</Price>
-      <Discount>{formatCurrency(cabin.discount)}</Discount>
+    <>
+      <TableRow role="row">
+        <Img src={cabinImage} alt={cabin.description}></Img>
+        <Cabin>{cabin.name}</Cabin>
+        <div>Fits up to {cabin.maxCapacity} guests</div>
+        <Price>{formatCurrency(cabin.regularPrice)}</Price>
+        <Discount>{formatCurrency(cabin.discount)}</Discount>
 
-      <button onClick={() => mutate(cabin.id)} disabled={isDeleting}>
-        Delete
-      </button>
-    </TableRow>
+        <button onClick={() => mutate(cabin.id)} disabled={isDeleting}>
+          Delete
+        </button>
+      </TableRow>
+      {/* {showForm && <UpdateCabinForm cabinToEdit={cabin} />} */}
+    </>
   );
 }

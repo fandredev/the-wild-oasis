@@ -1,4 +1,4 @@
-import { CabinForm } from '../features/cabins/CreateCabinForm';
+import { CreateCabinForm } from '../features/cabins/CreateCabinForm';
 import { supabase } from './supabase';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -14,7 +14,7 @@ export async function getCabins() {
   return data;
 }
 
-export async function createCabin(newCabin: CabinForm) {
+export async function createCabin(newCabin: CreateCabinForm) {
   const fileName = newCabin.image[0].name
 
   const supabaseUrl = `${import.meta.env.VITE_SUPABASE_API_URL}`
@@ -32,7 +32,7 @@ export async function createCabin(newCabin: CabinForm) {
       ...newCabin,
       image: imagePath
     }])
-    .select();
+    .select().single();
 
   if (error) {
     console.log(error);
@@ -55,6 +55,7 @@ export async function createCabin(newCabin: CabinForm) {
 
   return data;
 }
+
 
 export async function deleteCabin(id: number) {
   const { error, data } = await supabase.from('cabins').delete().eq('id', id);
