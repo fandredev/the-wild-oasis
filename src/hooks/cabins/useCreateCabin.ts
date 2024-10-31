@@ -10,6 +10,10 @@ export function useCreateCabin(){
     mutationFn: createCabinAPI,
     onSuccess: () => {
       toast.success('New cabin successfully created');
+            /**
+       * Quando a requisição der sucesso, pegue o cachê atual e invalidate ele (pois ele agora é obsoleto, já que fiz um create)
+       * Quando isso for chamado, ele revalidará o cachê com os dados novos e invalidando o cachê antigo (com o dado obsoleto)
+       */
       queryClient.invalidateQueries({
         queryKey: ['cabins'],
       });
