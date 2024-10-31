@@ -16,6 +16,7 @@
 - [React Hook Form](https://www.react-hook-form.com/)
 - [React Hot Toast](https://react-hot-toast.com/)
 - [Date Fns](https://www.npmjs.com/package/date-fns)
+- [uuid](https://www.npmjs.com/package/uuid)
 
 ### Details
 

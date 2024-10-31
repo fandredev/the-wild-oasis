@@ -33,7 +33,10 @@ export default function CreateCabinForm() {
   });
 
   function submitNewCabin(newCabin: CabinForm) {
-    mutate(newCabin);
+    mutate({
+      ...newCabin,
+      image: newCabin.image,
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -122,7 +125,13 @@ export default function CreateCabinForm() {
 
       <FormRow label="Cabin photo" errorMessage={errors?.image?.message}>
         <Label htmlFor="image">Cabin photo</Label>
-        <FileInput id="image" accept="image/*" />
+        <FileInput
+          id="image"
+          accept="image/*"
+          {...register('image', {
+            required: 'this field is required',
+          })}
+        />
       </FormRow>
 
       <FormRow label="Cabin photo" errorMessage={errors?.image?.message}>

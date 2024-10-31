@@ -6,5 +6,5 @@ export default interface ICabin {
   regularPrice: number;
   discount: number;
   description: string;
-  image: string;
+  image: File[]
 }
