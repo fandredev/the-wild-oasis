@@ -7,7 +7,7 @@ export async function getSettings() {
     console.error(error);
     throw new Error('Settings could not be loaded');
   }
-  return data;
+  return data
 }
 
 // We expect a newSetting object that looks like {setting: newValue}
