@@ -5,38 +5,28 @@ import FileInput from '../../ui/FileInput';
 import Textarea from '../../ui/Textarea';
 import { FieldErrors, useForm } from 'react-hook-form';
 import ICabin from '../../interfaces/Cabin';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createCabin } from '../../services/apiCabins';
-import toast from 'react-hot-toast';
 import FormRow, { Label } from '../../ui/FormRow';
+import { useCreateCabin } from '../../hooks/cabins/useCreateCabin';
 
 export type CreateCabinForm = Omit<ICabin, 'id' | 'created_at'>;
 
 export default function CreateCabinForm() {
-  const queryClient = useQueryClient();
   const { register, handleSubmit, reset, getValues, formState } =
     useForm<CreateCabinForm>();
 
   const { errors } = formState;
-
-  const { mutate, isPending: isCreating } = useMutation({
-    mutationFn: createCabin,
-    onSuccess: () => {
-      toast.success('New cabin successfully created');
-      queryClient.invalidateQueries({
-        queryKey: ['cabins'],
-      });
-
-      reset();
-    },
-    onError: (err) => toast.error(err.message),
-  });
+  const { createCabin, isCreating } = useCreateCabin();
 
   function submitNewCabin(newCabin: CreateCabinForm) {
-    mutate({
-      ...newCabin,
-      image: newCabin.image,
-    });
+    createCabin(
+      {
+        ...newCabin,
+        image: newCabin.image,
+      },
+      {
+        onSuccess: () => reset(),
+      }
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

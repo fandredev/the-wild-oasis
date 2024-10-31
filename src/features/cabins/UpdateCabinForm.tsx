@@ -125,7 +125,6 @@ export default function UpdateCabinForm({
         errorMessage={errors?.description?.message}
       >
         <Textarea
-          disabled={isCreating}
           {...register('description', {
             required: 'this field is required',
           })}
