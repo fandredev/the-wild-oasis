@@ -37,7 +37,7 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-interface FormRowProps {
+interface FormRowProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string;
   errorMessage?: string | undefined;
   children: ReactNode;
@@ -47,9 +47,10 @@ export default function FormRow({
   label,
   errorMessage,
   children,
+  ...rest
 }: FormRowProps) {
   return (
-    <StyledFormRow>
+    <StyledFormRow {...rest}>
       {label && isValidElement(children) && children.props?.id && (
         <Label htmlFor={children.props.id}>{label}</Label>
       )}
