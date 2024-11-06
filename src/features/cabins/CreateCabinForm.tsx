@@ -24,7 +24,9 @@ export default function CreateCabinForm() {
         image: newCabin.image,
       },
       {
-        onSuccess: () => reset(),
+        onSuccess: () => {
+          reset();
+        },
       }
     );
   }
@@ -35,7 +37,7 @@ export default function CreateCabinForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit(submitNewCabin, onInvalidForm)}>
+    <Form onSubmit={handleSubmit(submitNewCabin, onInvalidForm)} type="modal">
       <FormRow label="Cabin name" errorMessage={errors?.name?.message}>
         <Label htmlFor="name">Cabin name</Label>
         <Input
@@ -125,9 +127,6 @@ export default function CreateCabinForm() {
       </FormRow>
 
       <FormRow label="Cabin photo" errorMessage={errors?.image?.message}>
-        <Button variation="secondary" type="reset">
-          Cancel
-        </Button>
         <Button disabled={isCreating}>Add cabin</Button>
       </FormRow>
     </Form>

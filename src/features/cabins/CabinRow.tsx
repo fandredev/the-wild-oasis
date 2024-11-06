@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import ICabin from '../../interfaces/Cabin';
 import { formatCurrency } from '../../utils/helpers';
 import { useDeleteCabin } from '../../hooks/cabins/useDeleteCabin';
+import { FaTrash } from 'react-icons/fa';
 
 const TableRow = styled.div`
   display: grid;
@@ -42,6 +43,12 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
+const Button = styled.button`
+  border: none;
+  background-color: transparent;
+  width: max-content;
+`;
+
 interface CabinRowProps {
   cabin: ICabin;
 }
@@ -63,9 +70,9 @@ export default function CabinRow({ cabin }: CabinRowProps) {
           <span>&mdash;</span>
         )}
 
-        <button onClick={() => deleteCabin(cabin.id)} disabled={isDeleting}>
-          Delete
-        </button>
+        <Button onClick={() => deleteCabin(cabin.id)} disabled={isDeleting}>
+          <FaTrash />
+        </Button>
       </TableRow>
       {/* {showForm && <UpdateCabinForm cabinToEdit={cabin} />} */}
     </>

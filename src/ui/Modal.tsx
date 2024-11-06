@@ -1,4 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  cloneElement,
+  createContext,
+  ReactElement,
+  ReactNode,
+  useContext,
+  useState,
+} from 'react';
+import { createPortal } from 'react-dom';
+import { HiXMark } from 'react-icons/hi2';
 import styled from 'styled-components';
+import { useClickOutsideModal } from '../hooks/useClickOutsideModal';
 
 export const StyledModal = styled.div`
   position: fixed;
@@ -48,3 +60,77 @@ export const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+
+// interface ModalProps {
+//   children: ReactNode;
+//   onClose?: () => void;
+// }
+// export default function Modal({ children, onClose }: ModalProps) {
+//   return createPortal(
+//     <Overlay>
+//       <StyledModal>
+//         <Button onClick={onClose}>
+//           <HiXMark />
+//         </Button>
+//         {children}
+//       </StyledModal>
+//     </Overlay>,
+//     document.body
+//   );
+// }
+
+// Compound Component Pattern
+
+const ModalContext = createContext({
+  open: (name: string) => {},
+  close: () => {},
+  openName: '',
+});
+
+interface WindowProps {
+  children: ReactNode;
+  name: 'cabin-form' | 'table';
+}
+
+function Window({ children, name }: WindowProps) {
+  const { openName, close } = useContext(ModalContext);
+
+  const ref = useClickOutsideModal(close);
+
+  // Renderizar apenas quando o `name` corresponde ao `openName`
+  if (name !== openName) return null;
+
+  return createPortal(
+    <Overlay>
+      <StyledModal ref={ref}>
+        <Button onClick={close}>
+          <HiXMark />
+        </Button>
+        {cloneElement(children as ReactElement, { onCloseModal: close })}
+      </StyledModal>
+    </Overlay>,
+    document.body
+  );
+}
+
+export function Modal({ children }: { children: ReactNode }) {
+  const [openName, setOpenName] = useState('');
+
+  const close = () => setOpenName('');
+  const open = (name: string) => setOpenName(name);
+
+  return (
+    <ModalContext.Provider value={{ close, open, openName }}>
+      {children}
+    </ModalContext.Provider>
+  );
+}
+
+function Open({ children, opens }: { children: ReactElement; opens: string }) {
+  const { open } = useContext(ModalContext);
+
+  return cloneElement(children, { onClick: () => open(opens) });
+}
+
+Modal.Open = Open;
+Modal.Window = Window;
