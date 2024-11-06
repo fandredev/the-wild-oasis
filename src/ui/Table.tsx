@@ -1,8 +1,6 @@
+import { createContext, ReactNode, useContext } from 'react';
 import styled from 'styled-components';
-
-interface CommonRowProps {
-  columns: number;
-}
+import ICabin from '../interfaces/Cabin';
 
 export const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -13,7 +11,7 @@ export const StyledTable = styled.div`
   overflow: hidden;
 `;
 
-export const CommonRow = styled.div<CommonRowProps>`
+export const CommonRow = styled.div<TableProps>`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
   column-gap: 2.4rem;
@@ -62,3 +60,55 @@ export const Empty = styled.p`
   text-align: center;
   margin: 2.4rem;
 `;
+
+interface TableProps {
+  columns: string;
+  children: React.ReactNode;
+}
+
+const TableContext = createContext({
+  columns: '',
+});
+
+function Table({ columns, children }: TableProps) {
+  return (
+    <TableContext.Provider value={{ columns }}>
+      <StyledTable role="table">{children}</StyledTable>
+    </TableContext.Provider>
+  );
+}
+function Header({ children }: { children: ReactNode }) {
+  const { columns } = useContext(TableContext);
+
+  return (
+    <StyledHeader columns={columns} as="header">
+      {children}
+    </StyledHeader>
+  );
+}
+function Row({ children }: { children: ReactNode }) {
+  const { columns } = useContext(TableContext);
+
+  return (
+    <StyledRow role="row" columns={columns}>
+      {children}
+    </StyledRow>
+  );
+}
+function Body({
+  data,
+  render,
+}: {
+  data: ICabin[];
+  render: (data: ICabin) => ReactNode;
+}) {
+  if (data.length === 0) return <Empty>No data available</Empty>;
+  return <StyledBody>{data.map(render)}</StyledBody>;
+}
+
+Table.Header = Header;
+Table.Row = Row;
+Table.Body = Body;
+Table.Footer = Footer;
+
+export default Table;
