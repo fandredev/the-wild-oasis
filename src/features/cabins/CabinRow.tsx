@@ -3,6 +3,8 @@ import ICabin from '../../interfaces/Cabin';
 import { formatCurrency } from '../../utils/helpers';
 import { useDeleteCabin } from '../../hooks/cabins/useDeleteCabin';
 import { FaTrash } from 'react-icons/fa';
+import { Modal } from '../../ui/Modal';
+import ConfirmDelete from '../../ui/ConfirmDelete';
 
 const TableRow = styled.div`
   display: grid;
@@ -70,9 +72,20 @@ export default function CabinRow({ cabin }: CabinRowProps) {
           <span>&mdash;</span>
         )}
 
-        <Button onClick={() => deleteCabin(cabin.id)} disabled={isDeleting}>
-          <FaTrash />
-        </Button>
+        <Modal>
+          <Modal.Open opens="delete">
+            <Button>
+              <FaTrash />
+            </Button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="cabins"
+              disabled={isDeleting}
+              onConfirm={() => deleteCabin(cabin.id)}
+            />
+          </Modal.Window>
+        </Modal>
       </TableRow>
       {/* {showForm && <UpdateCabinForm cabinToEdit={cabin} />} */}
     </>

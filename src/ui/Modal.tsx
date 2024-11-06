@@ -89,7 +89,7 @@ const ModalContext = createContext({
 
 interface WindowProps {
   children: ReactNode;
-  name: 'cabin-form' | 'table';
+  name: 'cabin-form' | 'delete';
 }
 
 function Window({ children, name }: WindowProps) {
