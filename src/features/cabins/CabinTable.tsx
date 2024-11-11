@@ -5,6 +5,14 @@ import { useCabins } from '../../hooks/cabins/useCabins';
 import Table from '../../ui/Table';
 import { useSearchParams } from 'react-router-dom';
 
+type SortKey =
+  | 'regularPrice-asc'
+  | 'regularPrice-desc'
+  | 'maxCapacity-asc'
+  | 'maxCapacity-desc'
+  | 'name-asc'
+  | 'name-desc';
+
 export default function CabinTable() {
   const { isLoading, cabins } = useCabins();
   const [searchParams] = useSearchParams();
@@ -23,6 +31,18 @@ export default function CabinTable() {
   } else {
     filteredCabins = cabinsData;
   }
+
+  const sortBy = (searchParams.get('sortBy') || 'startDate-asc') as SortKey;
+  const sortCriteria: Record<SortKey, (a: ICabin, b: ICabin) => number> = {
+    'regularPrice-asc': (a, b) => a.regularPrice - b.regularPrice,
+    'regularPrice-desc': (a, b) => b.regularPrice - a.regularPrice,
+    'maxCapacity-asc': (a, b) => a.maxCapacity - b.maxCapacity,
+    'maxCapacity-desc': (a, b) => b.maxCapacity - a.maxCapacity,
+    'name-asc': (a, b) => a.name.localeCompare(b.name),
+    'name-desc': (a, b) => b.name.localeCompare(a.name),
+  };
+
+  filteredCabins.sort(sortCriteria[sortBy] || (() => 0));
 
   return (
     <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
