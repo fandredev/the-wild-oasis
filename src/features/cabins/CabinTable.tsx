@@ -22,7 +22,7 @@ export default function CabinTable() {
   const cabinsData = cabins as unknown as ICabin[];
 
   const filterValue = searchParams.get('discount') || 'all';
-  let filteredCabins;
+  let filteredCabins: ICabin[];
 
   if (filterValue === 'no-discount') {
     filteredCabins = cabinsData.filter((cabin) => cabin.discount === 0);
@@ -55,9 +55,8 @@ export default function CabinTable() {
         <div>Actions</div>
       </Table.Header>
       <Table.Body
-        // data={cabinsData}
         data={filteredCabins}
-        render={(cabin: ICabin) => <CabinRow cabin={cabin} key={cabin.id} />}
+        render={(cabin) => <CabinRow cabin={cabin as ICabin} key={cabin.id} />}
       />
     </Table>
   );

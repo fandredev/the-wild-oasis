@@ -6,6 +6,7 @@ import Table from '../../ui/Table';
 
 import { formatCurrency } from '../../utils/helpers';
 import { formatDistanceFromNow } from '../../utils/helpers';
+import { Booking } from '../../interfaces/Booking';
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -33,26 +34,6 @@ const Amount = styled.div`
   font-family: 'Sono';
   font-weight: 500;
 `;
-
-export interface Booking {
-  booking: {
-    id: string;
-    created_at: string;
-    startDate: string;
-    endDate: string;
-    numNights: number;
-    numGuests: number;
-    totalPrice: number;
-    status: string;
-    guests: {
-      fullName: string;
-      email: string;
-    };
-    cabins: {
-      name: string;
-    };
-  };
-}
 
 function BookingRow({
   booking: {

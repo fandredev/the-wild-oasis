@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   cloneElement,
   createContext,
@@ -82,7 +81,7 @@ export const Button = styled.button`
 // Compound Component Pattern
 
 const ModalContext = createContext({
-  open: (name: string) => {},
+  open: () => {},
   close: () => {},
   openName: '',
 });
