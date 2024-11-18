@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext } from 'react';
 import styled from 'styled-components';
 import ICabin from '../interfaces/Cabin';
+import { BookingsResponse } from '../hooks/bookings/useBookings';
 
 export const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -99,8 +100,8 @@ function Body({
   data,
   render,
 }: {
-  data: ICabin[];
-  render: (data: ICabin) => ReactNode;
+  data: ICabin[] | BookingsResponse[];
+  render: (data: ICabin | BookingsResponse) => ReactNode;
 }) {
   if (data.length === 0) return <Empty>No data available</Empty>;
   return <StyledBody>{data.map(render)}</StyledBody>;
