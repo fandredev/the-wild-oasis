@@ -31,15 +31,25 @@ export function useBookings() {
       ? null
       : { field: 'status', value: filterValue };
 
+  const sortByRaw = searchParams.get('sortBy') || 'startDate-desc';
+  const [sortByField, sortByDirection] = sortByRaw.split('-');
+  const sortBy = { field: sortByField, direction: sortByDirection };
+
+  const page = !searchParams.get('page')
+    ? 1
+    : parseInt(searchParams.get('page')!, 10);
+
   const {
     isLoading,
     data: bookings,
     error,
   } = useQuery({
-    queryKey: ['bookings', filter],
+    queryKey: ['bookings', filter, sortBy, page],
     queryFn: () =>
       getBookings({
-        filter: filter,
+        filter,
+        sortBy,
+        page,
       }),
   });
 
