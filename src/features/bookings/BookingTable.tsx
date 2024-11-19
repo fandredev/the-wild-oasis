@@ -29,9 +29,7 @@ function BookingTable() {
 
       <Table.Body
         data={bookingsList}
-        render={(booking) => (
-          <BookingRow key={booking.id} booking={booking as BookingsResponse} />
-        )}
+        render={(booking) => <BookingRow key={booking.id} booking={booking} />}
       />
 
       {bookings.count && (

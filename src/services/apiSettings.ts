@@ -1,18 +1,19 @@
+import { Settings } from '../interfaces/Settings';
 import { supabase } from './supabase';
 
-export async function getSettings() {
+export async function getSettings(): Promise<Settings> {
   const { data, error } = await supabase.from('settings').select('*').single();
 
   if (error) {
     console.error(error);
     throw new Error('Settings could not be loaded');
   }
-  return data
+  return data as unknown as Settings;
 }
 
 // We expect a newSetting object that looks like {setting: newValue}
 // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
-export async function updateSetting(newSetting: Object) {
+export async function updateSetting(newSetting: Object): Promise<Settings> {
   const { data, error } = await supabase
     .from('settings')
     .update(newSetting)
@@ -24,5 +25,5 @@ export async function updateSetting(newSetting: Object) {
     console.error(error);
     throw new Error('Settings could not be updated');
   }
-  return data;
+  return data as unknown as Settings;
 }
