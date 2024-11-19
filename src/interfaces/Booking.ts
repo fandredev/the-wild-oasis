@@ -1,19 +1,24 @@
+import ICabin from './Cabin';
+import { IGuests } from './Guests';
+
 export interface IBooking {
-  id: string;
+  cabinId: string;
+  cabinPrice: number | null;
+  cabins: ICabin;
+
   created_at: string;
-  startDate: string;
   endDate: string;
-  numNights: number;
+  extrasPrice: number | null;
+  guests: IGuests;
+  hasBreakfast: boolean;
+  id: string;
+  isPaid: boolean;
   numGuests: number;
-  totalPrice: number;
-  status: string;
-  guests: {
-    fullName: string;
-    email: string;
-  };
-  cabins: {
-    name: string;
-  };
+  numNights: number | null;
+  observations: string;
+  startDate: string;
+  status: 'unconfirmed' | 'checked-in' | 'checked-out';
+  totalPrice: number | null;
 }
 
 export interface Booking {

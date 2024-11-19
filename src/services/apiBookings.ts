@@ -49,6 +49,8 @@ export async function getBooking(id: number) {
     .eq('id', id)
     .single();
 
+  console.log(data, 'data');
+
   if (error) {
     console.error(error);
     throw new Error('Booking not found');

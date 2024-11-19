@@ -1,6 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
-export function useClickOutsideModal(close: () => void, listenCapturing: boolean = true) {
+export function useClickOutsideModal(
+  close: () => void,
+  listenCapturing: boolean = true
+) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -12,7 +15,8 @@ export function useClickOutsideModal(close: () => void, listenCapturing: boolean
 
     document.addEventListener('click', handleClick, listenCapturing);
 
-    return () => document.removeEventListener('click', handleClick, listenCapturing);
+    return () =>
+      document.removeEventListener('click', handleClick, listenCapturing);
   }, [close, listenCapturing]);
 
   return ref;

@@ -11,6 +11,7 @@ import DataItem from '../../ui/DataItem';
 
 import { formatDistanceFromNow, formatCurrency } from '../../utils/helpers';
 import Flag from '../../ui/Flag';
+import { IBooking } from '../../interfaces/Booking';
 
 interface PriceProps {
   isPaid: boolean;
@@ -105,34 +106,8 @@ const Footer = styled.footer`
   text-align: right;
 `;
 
-export interface BookingDataBoxProps {
-  booking: {
-    created_at: string;
-    startDate: string;
-    endDate: string;
-    numNights: number;
-    numGuests: number;
-    cabinPrice: number;
-    extrasPrice: number;
-    totalPrice: number;
-    hasBreakfast: boolean;
-    observations: string;
-    isPaid: boolean;
-    guests: {
-      fullName: string;
-      email: string;
-      country: string;
-      countryFlag: string;
-      nationalId: string;
-    };
-    cabins: {
-      name: string;
-    };
-  };
-}
-
 // A purely presentational component
-function BookingDataBox({ booking }: BookingDataBoxProps) {
+function BookingDataBox({ booking }: { booking: IBooking }) {
   const {
     created_at,
     startDate,
@@ -201,11 +176,11 @@ function BookingDataBox({ booking }: BookingDataBoxProps) {
 
         <Price isPaid={isPaid}>
           <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
-            {formatCurrency(totalPrice)}
+            {formatCurrency(totalPrice ?? 0)}
 
             {hasBreakfast &&
-              ` (${formatCurrency(cabinPrice)} cabin + ${formatCurrency(
-                extrasPrice
+              ` (${formatCurrency(cabinPrice ?? 0)} cabin + ${formatCurrency(
+                extrasPrice ?? 0
               )} breakfast)`}
           </DataItem>
 
