@@ -1,3 +1,4 @@
+import { IBooking } from '../interfaces/Booking';
 import { PAGE_SIZE } from '../utils/constants';
 import { getToday } from '../utils/helpers';
 import { supabase } from './supabase';
@@ -42,21 +43,19 @@ export async function getBookings({ filter, sortBy, page }: GetBookingsProps) {
   return { data, count };
 }
 
-export async function getBooking(id: number) {
+export async function getBooking(id: number): Promise<IBooking> {
   const { data, error } = await supabase
     .from('bookings')
     .select('*, cabins(*), guests(*)')
     .eq('id', id)
     .single();
 
-  console.log(data, 'data');
-
   if (error) {
     console.error(error);
     throw new Error('Booking not found');
   }
 
-  return data;
+  return data as unknown as IBooking;
 }
 
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
@@ -113,7 +112,10 @@ export async function getStaysTodayActivity() {
   return data;
 }
 
-export async function updateBooking(id: number, obj: object) {
+export async function updateBooking(
+  id: number,
+  obj: object
+): Promise<IBooking> {
   const { data, error } = await supabase
     .from('bookings')
     .update(obj)
@@ -125,7 +127,7 @@ export async function updateBooking(id: number, obj: object) {
     console.error(error);
     throw new Error('Booking could not be updated');
   }
-  return data;
+  return data as unknown as IBooking;
 }
 
 export async function deleteBooking(id: number) {

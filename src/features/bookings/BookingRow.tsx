@@ -9,6 +9,7 @@ import { formatDistanceFromNow } from '../../utils/helpers';
 import { Booking } from '../../interfaces/Booking';
 import { HiEye } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
+import { HiArrowDownOnSquare } from 'react-icons/hi2';
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -35,6 +36,23 @@ const Stacked = styled.div`
 const Amount = styled.div`
   font-family: 'Sono';
   font-weight: 500;
+`;
+
+const ContainerActions = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+  .icon {
+    cursor: pointer;
+    font-size: 1.6rem;
+    color: var(--color-grey-500);
+
+    &:last-child {
+      position: relative;
+      bottom: 2px;
+      margin-left: 3px;
+    }
+  }
 `;
 
 function BookingRow({
@@ -82,12 +100,20 @@ function BookingRow({
         {status.replace('-', ' ')}
       </Tag>
 
-      <Amount>{formatCurrency(totalPrice)}</Amount>
+      <Amount>{formatCurrency(totalPrice ?? 0)}</Amount>
 
-      <HiEye
-        className="icon"
-        onClick={() => navigate(`/bookings/${bookingId}`)}
-      />
+      <ContainerActions>
+        <HiEye
+          className="icon"
+          onClick={() => navigate(`/bookings/${bookingId}`)}
+        />
+        {status === 'unconfirmed' && (
+          <HiArrowDownOnSquare
+            className="icon"
+            onClick={() => navigate(`/checkin/${bookingId}`)}
+          />
+        )}
+      </ContainerActions>
     </Table.Row>
   );
 }
