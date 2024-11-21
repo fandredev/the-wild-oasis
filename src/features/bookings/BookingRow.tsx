@@ -9,7 +9,6 @@ import { formatDistanceFromNow } from '../../utils/helpers';
 import { Booking } from '../../interfaces/Booking';
 import { HiEye } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
-import { HiArrowDownOnSquare } from 'react-icons/hi2';
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -68,6 +67,7 @@ function BookingRow({
   },
 }: Booking) {
   const navigate = useNavigate();
+
   const statusToTagName = {
     unconfirmed: 'info',
     'checked-in': 'success',
@@ -107,12 +107,18 @@ function BookingRow({
           className="icon"
           onClick={() => navigate(`/bookings/${bookingId}`)}
         />
-        {status === 'unconfirmed' && (
+        {/* {status === 'unconfirmed' && (
           <HiArrowDownOnSquare
             className="icon"
             onClick={() => navigate(`/checkin/${bookingId}`)}
           />
         )}
+        {status === 'checked-in' && (
+          <HiArrowUpOnSquare
+            className="icon"
+            onClick={() => checkout(+bookingId)}
+          />
+        )} */}
       </ContainerActions>
     </Table.Row>
   );
