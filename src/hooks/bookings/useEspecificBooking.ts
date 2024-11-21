@@ -16,7 +16,7 @@ export function useEspecificBooking() {
 
   return {
     isLoading,
-    booking: booking,
+    booking,
     error,
   };
 }

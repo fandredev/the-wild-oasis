@@ -14,8 +14,8 @@ export function useCheckout() {
       toast.success(`Booking #${data.id} checked out successfully`);
       queryClient.invalidateQueries();
     },
-    onError: () => {
-      toast.error('An error occurred. Please try again later');
+    onError: (err) => {
+      toast.error(err.message || 'An error occurred. Please try again later');
     },
   });
 

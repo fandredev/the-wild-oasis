@@ -29,8 +29,8 @@ export function useCheckin() {
       queryClient.invalidateQueries();
       navigate('/');
     },
-    onError: () => {
-      toast.error('An error occurred. Please try again later');
+    onError: (err) => {
+      toast.error(err.message || 'An error occurred. Please try again later');
     },
   });
 
