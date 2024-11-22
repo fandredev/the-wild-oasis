@@ -8,7 +8,7 @@ import Button from '../../ui/Button';
 
 function LoginForm() {
   const [email, setEmail] = useState('admin@admin.com');
-  const [password, setPassword] = useState('admin');
+  const [password, setPassword] = useState('adminadmin');
 
   const { login, isLoading } = useLogin();
 

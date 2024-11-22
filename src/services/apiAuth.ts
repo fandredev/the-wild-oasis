@@ -82,3 +82,58 @@ export async function logout() {
     throw new Error(error.message);
   }
 }
+
+export async function updateCurrentUser({
+  password,
+  fullName,
+  avatar,
+}: {
+  password?: string;
+  fullName?: string;
+  avatar?: File | null;
+}) {
+  // 1. Update password OR full name
+  let updateData;
+  if (password) updateData = { password };
+  if (fullName) updateData = { data: { full_name: fullName } };
+
+  const { data, error } = await supabase.auth.updateUser(
+    updateData as { password: string } | { data: { full_name: string } }
+  );
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  if (!avatar) return data;
+
+  // 2. Update the avatar image
+  const fileName = `avatar=${data?.user.id}-${Math.random()}`;
+
+  const { error: storageError } = await supabase.storage
+    .from('avatars')
+    .upload(fileName, avatar);
+
+  if (storageError) {
+    throw new Error(storageError.message);
+  }
+
+  // 3. Update avatar in the user
+
+  const supabaseAvatarBucketUrl = `${
+    import.meta.env.VITE_SUPABASE_AVATARS_BUCKET
+  }`;
+
+  const { data: updatedUser, error: errorUpdateAvatar } =
+    await supabase.auth.updateUser({
+      data: {
+        avatar: `${supabaseAvatarBucketUrl}${fileName}`,
+      },
+    });
+
+  if (errorUpdateAvatar) {
+    throw new Error(errorUpdateAvatar.message);
+  }
+
+  return updatedUser;
+}
