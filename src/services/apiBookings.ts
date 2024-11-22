@@ -59,7 +59,13 @@ export async function getBooking(id: number): Promise<IBooking> {
 }
 
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
-export async function getBookingsAfterDate(date: Date) {
+export async function getBookingsAfterDate(date: string): Promise<
+  {
+    created_at: string;
+    totalPrice: number | null;
+    extrasPrice: number | null;
+  }[]
+> {
   const { data, error } = await supabase
     .from('bookings')
     .select('created_at, totalPrice, extrasPrice')
@@ -71,14 +77,13 @@ export async function getBookingsAfterDate(date: Date) {
     throw new Error('Bookings could not get loaded');
   }
 
-  return data;
+  return data as unknown as IBooking[];
 }
 
 // Returns all STAYS that are were created after the given date
-export async function getStaysAfterDate(date: Date) {
+export async function getStaysAfterDate(date: string): Promise<IBooking[]> {
   const { data, error } = await supabase
     .from('bookings')
-    // .select('*')
     .select('*, guests(fullName)')
     .gte('startDate', date)
     .lte('startDate', getToday());
@@ -88,7 +93,7 @@ export async function getStaysAfterDate(date: Date) {
     throw new Error('Bookings could not get loaded');
   }
 
-  return data;
+  return data as unknown as IBooking[];
 }
 
 // Activity means that there is a check in or a check out today

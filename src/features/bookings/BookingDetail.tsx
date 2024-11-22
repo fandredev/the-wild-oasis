@@ -14,7 +14,7 @@ import { IBooking } from '../../interfaces/Booking';
 import BookingDataBox from './BookingDataBox';
 import { useNavigate } from 'react-router-dom';
 import { useCheckout } from '../../hooks/check-out/useCheckout';
-import { useDeleteBooking } from '../../hooks/bookings/deleteBooking';
+import { useDeleteBooking } from '../../hooks/bookings/useDeleteBooking';
 import { Modal } from '../../ui/Modal';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 
