@@ -38,7 +38,7 @@ const Error = styled.span`
 `;
 
 interface FormRowProps extends React.HTMLAttributes<HTMLDivElement> {
-  label: string;
+  label?: string;
   errorMessage?: string | undefined;
   children: ReactNode;
 }
