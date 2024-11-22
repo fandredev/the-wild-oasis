@@ -7,8 +7,8 @@ export function useUpdateUser() {
 
   const { mutate: updateUser, isPending: isLoadingUpdateUser } = useMutation({
     mutationFn: updateCurrentUser,
-    onSuccess: () => {
-      // queryClient.setQueryData(['user'], user);
+    onSuccess: ({ user }) => {
+      queryClient.setQueryData(['user'], user);
 
       queryClient.invalidateQueries({
         queryKey: ['user'],
