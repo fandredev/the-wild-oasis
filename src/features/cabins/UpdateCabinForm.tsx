@@ -51,7 +51,7 @@ export default function UpdateCabinForm({
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function onInvalidForm(errors: FieldErrors<CreateCabinForm>) {
+  function onInvalidForm(_errors: FieldErrors<CreateCabinForm>) {
     // work here in errors
   }
 
