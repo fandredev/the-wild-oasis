@@ -82,7 +82,8 @@ export function useBookings() {
 
   return {
     isLoading,
-    bookings,
+    bookings: bookings?.data,
+    count: bookings?.count,
     error,
   };
 }

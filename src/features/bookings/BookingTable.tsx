@@ -9,12 +9,12 @@ import BookingRow from './BookingRow';
 import Pagination from '../../ui/Pagination';
 
 function BookingTable() {
-  const { bookings, isLoading } = useBookings();
+  const { bookings, count, isLoading } = useBookings();
 
   if (isLoading) return <Spinner />;
-  if (!bookings?.data) return <Empty resource="bookings" />;
+  if (!bookings) return <Empty resource="bookings" />;
 
-  const bookingsList = bookings.data as unknown as BookingsResponse[];
+  const bookingsList = bookings as unknown as BookingsResponse[];
 
   return (
     <Table columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">
@@ -29,12 +29,14 @@ function BookingTable() {
 
       <Table.Body
         data={bookingsList}
-        render={(booking) => <BookingRow key={booking.id} booking={booking} />}
+        render={(booking) => (
+          <BookingRow key={booking.id} booking={booking as BookingsResponse} />
+        )}
       />
 
-      {bookings.count && (
+      {count && (
         <Table.Footer>
-          <Pagination count={bookings.count} />
+          <Pagination count={count} />
         </Table.Footer>
       )}
     </Table>

@@ -24,3 +24,16 @@ export interface IBooking {
 export interface Booking {
   booking: IBooking;
 }
+
+export interface BookingsDetail {
+  cabins: ICabin;
+  created_at: string;
+  endDate: string;
+  guests: IGuests;
+  id: number;
+  numGuests: number;
+  numNights: number;
+  startDate: string;
+  status: string;
+  totalPrice: number;
+}

@@ -1,4 +1,4 @@
-import { IBooking } from '../interfaces/Booking';
+import { BookingsDetail, IBooking } from '../interfaces/Booking';
 import { PAGE_SIZE } from '../utils/constants';
 import { getToday } from '../utils/helpers';
 import { supabase } from './supabase';
@@ -40,7 +40,11 @@ export async function getBookings({ filter, sortBy, page }: GetBookingsProps) {
     throw new Error('Bookings could not get loaded');
   }
 
-  return { data, count };
+  const dataType = data as unknown as {
+    count: number;
+    data: BookingsDetail;
+  };
+  return { data: dataType, count };
 }
 
 export async function getBooking(id: number): Promise<IBooking> {

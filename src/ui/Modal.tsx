@@ -81,7 +81,8 @@ export const Button = styled.button`
 // Compound Component Pattern
 
 const ModalContext = createContext({
-  open: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  open: (_name: string) => {},
   close: () => {},
   openName: '',
 });

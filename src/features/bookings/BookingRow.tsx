@@ -6,9 +6,9 @@ import Table from '../../ui/Table';
 
 import { formatCurrency } from '../../utils/helpers';
 import { formatDistanceFromNow } from '../../utils/helpers';
-import { Booking } from '../../interfaces/Booking';
 import { HiEye } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
+import { BookingsResponse } from '../../hooks/bookings/useBookings';
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -65,7 +65,9 @@ function BookingRow({
     guests: { fullName: guestName, email },
     cabins: { name: cabinName },
   },
-}: Booking) {
+}: {
+  booking: BookingsResponse;
+}) {
   const navigate = useNavigate();
 
   const statusToTagName = {
