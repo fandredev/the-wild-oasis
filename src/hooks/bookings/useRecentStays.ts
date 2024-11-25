@@ -25,5 +25,6 @@ export function useRecentStays() {
     isLoading,
     stays,
     confirmedStays,
+    numDays,
   };
 }

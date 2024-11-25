@@ -50,7 +50,7 @@ const Value = styled.p`
 interface StatProps {
   icon: JSX.Element;
   title: string;
-  value: string;
+  value: number | string | undefined;
   color: string;
 }
 
@@ -59,7 +59,7 @@ function Stat({ icon, title, value, color }: StatProps) {
     <StyledStat>
       <Icon color={color}>{icon}</Icon>
       <Title>{title}</Title>
-      <Value>{value}</Value>
+      <Value>{value && value}</Value>
     </StyledStat>
   );
 }
