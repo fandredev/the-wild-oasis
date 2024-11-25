@@ -11,8 +11,8 @@ import Pagination from '../../ui/Pagination';
 function BookingTable() {
   const { bookings, isLoading } = useBookings();
 
-  if (!bookings?.data) return <Empty resource="bookings" />;
   if (isLoading) return <Spinner />;
+  if (!bookings?.data) return <Empty resource="bookings" />;
 
   const bookingsList = bookings.data as unknown as BookingsResponse[];
 

@@ -16,6 +16,8 @@ import Booking from './pages/Booking';
 import Checkin from './pages/Checkin';
 import ProtectedRoute from './ui/ProtectedRoute';
 import DarkModeProvider from './context/DarkModeContext';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from './ui/ErrorFallback';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,9 +38,19 @@ function App() {
           <Routes>
             <Route
               element={
-                <ProtectedRoute>
-                  <AppLayout />
-                </ProtectedRoute>
+                <ErrorBoundary
+                  FallbackComponent={ErrorFallback}
+                  onReset={() => {
+                    // This is a workaround for the issue where the error boundary doesn't reset
+                    // when the error is caught and the component is re-rendered.
+                    //
+                    window.location.replace('/');
+                  }}
+                >
+                  <ProtectedRoute>
+                    <AppLayout />
+                  </ProtectedRoute>
+                </ErrorBoundary>
               }
             >
               <Route index element={<Navigate replace to="dashboard" />} />

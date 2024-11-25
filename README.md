@@ -15,6 +15,7 @@
 - [React Icons](https://react-icons.github.io/react-icons/)
 - [React Hook Form](https://www.react-hook-form.com/)
 - [React Hot Toast](https://react-hot-toast.com/)
+- [React Error Boundary](https://www.npmjs.com/package/react-error-boundary)
 - [Date Fns](https://www.npmjs.com/package/date-fns)
 - [uuid](https://www.npmjs.com/package/uuid)
 - [recharts](https://recharts.org/en-US/)
