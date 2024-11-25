@@ -69,7 +69,12 @@ export default function SalesChart({ bookings, numDays }: SalesChartProps) {
       };
   return (
     <StyledSalesChart>
-      <Heading as="h2">Sales</Heading>
+      <Heading as="h2">
+        Sales from{' '}
+        {allDates.at(0) ? format(allDates.at(0) as Date, 'MMM dd yyyy') : ''}{' '}
+        &mdash;{' '}
+        {allDates.at(-1) ? format(allDates.at(-1) as Date, 'MMM dd yyyy') : ''}
+      </Heading>
 
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart data={data}>
